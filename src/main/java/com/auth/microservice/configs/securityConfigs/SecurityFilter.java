@@ -1,7 +1,6 @@
 package com.auth.microservice.configs.securityConfigs;
 
 import com.auth.microservice.services.TokenService;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,8 +37,6 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(tokenValid, null, null);
             SecurityContextHolder.getContext().setAuthentication(auth);
-        }else{
-            throw new JWTVerificationException("Token is missing");
         }
 
         filterChain.doFilter(request, response);

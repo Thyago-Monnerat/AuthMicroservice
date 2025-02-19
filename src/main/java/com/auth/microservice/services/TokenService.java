@@ -18,9 +18,11 @@ public class TokenService {
     @Value("${security.key}")
     private String key;
 
-    private final Algorithm algorithm = Algorithm.HMAC256(key);
-
     private final String issuer = "UserAuth";
+
+    private Algorithm getAlgorithm() {
+        return Algorithm.HMAC256(key);
+    }
 
     private Instant generateInstant() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
@@ -32,20 +34,20 @@ public class TokenService {
                     .withIssuer(issuer)
                     .withSubject(userLoginDTO.username())
                     .withExpiresAt(generateInstant())
-                    .sign(algorithm);
+                    .sign(getAlgorithm());
         } catch (JWTCreationException e) {
             throw new JWTCreationException(e.getMessage(), e);
         }
     }
 
-    public String validateToken(String token){
+    public String validateToken(String token) {
         try {
-            return JWT.require(algorithm)
+            return JWT.require(getAlgorithm())
                     .withIssuer(issuer)
                     .build()
                     .verify(token)
                     .getSubject();
-        }catch (JWTVerificationException e){
+        } catch (JWTVerificationException e) {
             throw new JWTVerificationException("Invalid or expired token");
         }
     }
