@@ -1,4 +1,4 @@
-# Microsserviço de Login/Registro
+# Microsserviço de Login/Registro com Spring Security, JWT e BCrypt
 
 #### O Microsserviço lida com criação de conta e gera um token como autenticação após o login bem-sucedido.
 #### Utilizei JWT para gerar o token de autenticação e validar o token nas requisições. No application-properties, coloquei uma chave mockada para assinar o token, apenas por praticidade.
